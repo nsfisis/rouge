@@ -368,6 +368,8 @@ module Rouge
         mixin :return
       end
 
+      # まずは property hooks の syntax pattern を確認する
+      # visibility の後ろに来る可能性のあるトークンを確認する
       state :in_visibility do
         rule %r/\b(?:readonly|static)\b/i, Keyword
         rule %r/(?=(abstract|const|function)\b)/i, Keyword, :pop!
