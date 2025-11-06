@@ -309,6 +309,7 @@ module Rouge
         rule %r/=/, Operator, :in_assign
         rule %r/\b(?:public|protected|private|readonly)\b/i, Keyword
         rule %r/\??#{id}/, Keyword::Type, :in_assign
+        rule %r/\{/, Punctuation, :in_property_hook
         mixin :escape
         mixin :whitespace
         mixin :variables
@@ -368,15 +369,18 @@ module Rouge
         mixin :return
       end
 
-      # まずは property hooks の syntax pattern を確認する
-      # visibility の後ろに来る可能性のあるトークンを確認する
       state :in_visibility do
         rule %r/\b(?:readonly|static)\b/i, Keyword
         rule %r/(?=(abstract|const|function)\b)/i, Keyword, :pop!
         rule %r/\??#{id}/, Keyword::Type, :pop!
+        rule %r/\{/, Punctuation, :in_property_hook
         mixin :escape
         mixin :whitespace
         mixin :return
+      end
+
+      state :in_property_hook do
+        # !!!
       end
     end
   end
