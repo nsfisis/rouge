@@ -380,7 +380,10 @@ module Rouge
       end
 
       state :in_property_hook do
-        # !!!
+        rule %r/\b(?:set|get)\b/i, Keyword
+        rule %r/{/, Punctuation, :push
+        rule %r/}/, Punctuation, :pop!
+        mixin :php
       end
     end
   end
