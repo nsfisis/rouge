@@ -369,3 +369,54 @@ function f(\Ns1\Ns2\Ns3\Class $x) {
 }
 
 ?>
+
+
+/* Property hooks */
+
+<?php
+
+class Example
+{
+    private bool $modified = false;
+
+    public string $foo = 'default value' {
+        get {
+            if ($this->modified) {
+                return $this->foo . ' (modified)';
+            }
+            return $this->foo;
+        }
+        set(string $value) {
+            $this->foo = strtolower($value);
+            $this->modified = true;
+        }
+    }
+
+    public string $foo {
+        get => $this->foo . ($this->modified ? ' (modified)' : '');
+
+        set {
+            $this->foo = strtolower($value);
+            $this->modified = true;
+        }
+    }
+
+    public string $foo {
+        get => $this->foo . ($this->modified ? ' (modified)' : '');
+        set => strtolower($value);
+    }
+
+    public function __construct(
+        public private(set) DateTimeInterface $created {
+            set (string|DateTimeInterface $value) {
+                if (is_string($value)) {
+                    $value = new DateTimeImmutable($value);
+                }
+                $this->created = $value;
+            }
+        },
+    ) {
+    }
+}
+
+?>
